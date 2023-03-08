@@ -29,6 +29,21 @@ export class ClientesPage implements OnInit {
     });
   }
 
+  editar(c: Cliente){
+    //console.log(c);
+    this.modalCtrl.create({
+      component: AdicionarUsuarioPage,
+      componentProps: {c}
+    }).then(modal => {
+      modal.present()
+      return modal.onDidDismiss();
+    }).then(({data}) => {
+      this.service.getAll().subscribe(response => {
+        this.clientes = response;
+      });
+    });
+  }
+
   novoCliente(){
     this.modalCtrl.create({
       component: AdicionarUsuarioPage

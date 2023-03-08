@@ -29,4 +29,8 @@ export class ClienteService {
     return this.http.post(this.url, cliente);
   }
 
+  update(cliente: Cliente, id: any){
+    return this.http.put(this.url +'/' + id, cliente);
+  }
+
 }

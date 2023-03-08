@@ -1,6 +1,6 @@
-import { ClienteService } from './../../servico/cliente.service';
+import { Cliente, ClienteService } from './../../servico/cliente.service';
 import { ModalController } from '@ionic/angular';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 @Component({
@@ -10,10 +10,14 @@ import { NgForm } from '@angular/forms';
 })
 export class AdicionarUsuarioPage implements OnInit {
 
+  @Input() c!: Cliente;
+
   constructor(private modalCtrl: ModalController,
     private service: ClienteService) { }
 
   ngOnInit() {
+    console.log("Entrou no atualizar")
+    console.log(this.c);
   }
 
   fecharModal(){

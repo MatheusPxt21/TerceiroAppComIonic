@@ -25,7 +25,8 @@
   <ion-list>
     <ion-item-sliding *ngFor="let c of clientes">
       <ion-item-options>
-        <ion-item-option color="danger" (click)="remover(c.id)">DELETE</ion-item-option>
+        <ion-item-option color="danger" (click)="remover(c.id)">DELETAR</ion-item-option>
+        <ion-item-option color="primary" (click)="editar(c)">EDITAR</ion-item-option>
       </ion-item-options>
       <ion-item>
         {{c.nome}}
