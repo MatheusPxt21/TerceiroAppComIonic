@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar color="dark">
+
+    <ion-buttons slot="start" (click)="fecharModal()">
+      <ion-button color="success">
+        <ion-icon name="arrow-down"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+
+    <ion-title>Cadastrar</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <form #f="ngForm" (ngSubmit)="cadastrar(f)">
+
+    <ion-item>
+      <ion-label position="floating" > Nome </ion-label>
+      <ion-input ngModel name="nome" ></ion-input>
+    </ion-item>
+    
+    <ion-item>
+      <ion-label position="floating" > Email </ion-label>
+      <ion-input ngModel name="email" ></ion-input>
+    </ion-item>
+    
+    <ion-item>
+      <ion-label position="floating" > Cidade </ion-label>
+      <ion-input ngModel name="cidade" ></ion-input>
+    </ion-item>
+
+    <ion-button fill="outline" expand="block" type="submit" color="success" > Cadastrar </ion-button>
+
+  </form>
+
+
+</ion-content>

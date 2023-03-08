@@ -25,4 +25,8 @@ export class ClienteService {
     return this.http.delete(this.url + '/' + id);
   }
 
+  create(cliente: Cliente){
+    return this.http.post(this.url, cliente);
+  }
+
 }

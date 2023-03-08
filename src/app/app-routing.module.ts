@@ -18,6 +18,10 @@ const routes: Routes = [
   {
     path: 'sobre',
     loadChildren: () => import('./pagina/sobre/sobre.module').then( m => m.SobrePageModule)
+  },
+  {
+    path: 'adicionar-usuario',
+    loadChildren: () => import('./pagina/adicionar-usuario/adicionar-usuario.module').then( m => m.AdicionarUsuarioPageModule)
   }
 ];
 
