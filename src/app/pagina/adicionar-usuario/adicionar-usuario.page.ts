@@ -11,13 +11,28 @@ import { NgForm } from '@angular/forms';
 export class AdicionarUsuarioPage implements OnInit {
 
   @Input() c!: Cliente;
+  atualizar = false;
+  dados = {
+    nome: '',
+    cidade: '',
+    email: '',
+  }
 
   constructor(private modalCtrl: ModalController,
     private service: ClienteService) { }
 
   ngOnInit() {
-    console.log("Entrou no atualizar")
-    console.log(this.c);
+    //console.log("Entrou no atualizar")
+    //console.log(this.c);
+    if(this.c){
+      //console.log("Atualizar");
+      this.atualizar = true;
+      this.dados = this.c;
+
+
+    }else{
+      //console.log("Novo usuario");
+    }
   }
 
   fecharModal(){
@@ -26,9 +41,15 @@ export class AdicionarUsuarioPage implements OnInit {
 
   cadastrar(form: NgForm){
     const cliente = form.value;
-    this.service.create(cliente).subscribe(response => {
-      this.modalCtrl.dismiss(response);
+    if(this.atualizar){
+      this.service.update(cliente, this.c.id).subscribe(response => {
+        this.modalCtrl.dismiss(response);
+      })
+    }else{
+      this.service.create(cliente).subscribe(response => {
+        this.modalCtrl.dismiss(response);
     });
+  }
   }
 
 }

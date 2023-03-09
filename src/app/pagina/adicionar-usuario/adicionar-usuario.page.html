@@ -8,7 +8,7 @@
     </ion-buttons>
 
 
-    <ion-title>Cadastrar</ion-title>
+    <ion-title>{{atualizar ? 'Atualizar' : 'Cadastrar'}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -18,20 +18,21 @@
 
     <ion-item>
       <ion-label position="floating" > Nome </ion-label>
-      <ion-input ngModel name="nome" ></ion-input>
-    </ion-item>
-    
-    <ion-item>
-      <ion-label position="floating" > Email </ion-label>
-      <ion-input ngModel name="email" ></ion-input>
-    </ion-item>
-    
-    <ion-item>
-      <ion-label position="floating" > Cidade </ion-label>
-      <ion-input ngModel name="cidade" ></ion-input>
+      <ion-input [(ngModel)]="dados.nome" name="nome" ></ion-input>
     </ion-item>
 
-    <ion-button fill="outline" expand="block" type="submit" color="success" > Cadastrar </ion-button>
+    <ion-item>
+      <ion-label position="floating" > Email </ion-label>
+      <ion-input [(ngModel)]="dados.email" name="email" ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating" > Cidade </ion-label>
+      <ion-input [(ngModel)]="dados.cidade" name="cidade" ></ion-input>
+    </ion-item>
+
+
+    <ion-button fill="outline" expand="block" type="submit" color="primary" > Submeter </ion-button>
 
   </form>
 
