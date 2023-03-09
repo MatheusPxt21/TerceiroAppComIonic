@@ -17,7 +17,7 @@
 <ion-content [fullscreen]="false" color="dark">
   <ion-header collapse="condense">
     <ion-toolbar color="dark">
-      <ion-title color="success" size="large">Clientes</ion-title>
+      <ion-title color="light" size="large">Clientes</ion-title>
     </ion-toolbar>
   </ion-header>
 
@@ -25,7 +25,7 @@
   <ion-list>
     <ion-item-sliding *ngFor="let c of clientes">
       <ion-item-options>
-        <ion-item-option color="danger" (click)="remover(c.id)">DELETAR</ion-item-option>
+        <ion-item-option color="danger" (click)="presentDELETEAlert(c)">DELETAR</ion-item-option>
         <ion-item-option color="primary" (click)="editar(c)">EDITAR</ion-item-option>
       </ion-item-options>
       <ion-item>

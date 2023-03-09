@@ -1,9 +1,35 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Sobre</ion-title>
+<ion-header [translucent]="true">
+  <ion-toolbar color="dark">
+
+    <ion-buttons slot="start">
+      <ion-menu-button color="success"></ion-menu-button>
+    </ion-buttons>
+
+    <ion-title>About</ion-title>
+
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content [fullscreen]="false" color="dark">
+
+
+  <div id="div_ImagemLogo" class="container_ImagemLogo">
+    <img src="assets\Logo.png" alt="">
+  </div>
+
+  <div id="div_Texto" class="container_Texto">
+    <!--
+      <h1>Matheus Peixoto</h1>
+    -->
+    <p>Computer Science student at Universidade Federal de Viçosa</p>
+
+  </div>
+
+  <div id="div_Contacte-me" class="container_Contacte-me">
+    <h3>Contact</h3>
+    <p><ion-icon name="logo-whatsapp"></ion-icon>  (xx)xxxxx-xxxx </p>
+    <p><ion-icon name="logo-instagram"></ion-icon>  matheus_n_pxt </p>
+  </div>
+
 
 </ion-content>
