@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-title>Faça seu Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="dark">
+  <div id="div_ImagemLogo" class="container_ImagemLogo">
+    <img src="assets\Logo.png" alt="">
+  </div>
+
+<!-- fazer itens na cor cinza (um pouco mais claro que o fundo dark) -->
+
+  <ion-item >
+    <ion-label position="floating">
+      Usuário
+    </ion-label>
+    <ion-input type="text" [(ngModel)] = "usuario"></ion-input>
+  </ion-item>
+
+  <ion-item >
+    <ion-label position="floating">
+      Senha
+    </ion-label>
+    <ion-input type="password" [(ngModel)] = "senha" ></ion-input>
+  </ion-item>
+
+
+  <div>
+    <br><br>
+    <ion-button fill="outline" type="submit" expand="block" color="success" (click)="login()">Entrar</ion-button>
+    <ion-button expand="block" padding color="secondary" (click)="Cadastrar()">Cadastrar</ion-button>
+  </div>
+
+
+</ion-content>
