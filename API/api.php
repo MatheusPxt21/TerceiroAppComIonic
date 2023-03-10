@@ -1,168 +1,78 @@
 <?php
+    header('Access-Control-Allow-Origin: *');
+    header('Content-Type: application/json');
+    header('Access-Control-Allow-Methods: POST, GET, PUT, DELETE');
+    header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
-include_once('conexao.php');
 
-$postjson = json_decode(file_get_contents('php://input'), true);
+    $con = new mysqli('localhost', 'root', '', 'segundocursoenvolvendophp');
 
-
-if($postjson['requisicao'] == 'add'){
-
-    $senha_cript = md5($postjson['senha']);
-
-    $query = $pdo->prepare("INSERT INTO usuarios SET nome = :nome, usuario = :usuario, senha = :senha, senha_original = :senha_original, nivel = :nivel ");
-  
-       $query->bindValue(":nome", $postjson['nome']);
-       $query->bindValue(":usuario", $postjson['usuario']);
-       $query->bindValue(":senha", $senha_cript);
-       $query->bindValue(":senha_original", $postjson['senha']);
-       $query->bindValue(":nivel", $postjson['nivel']);
-       $query->execute();
-  
-       $id = $pdo->lastInsertId();
-       
-  
-      if($query){
-        $result = json_encode(array('success'=>true, 'id'=>$id));
-  
+    if($_SERVER['REQUEST_METHOD'] === 'GET'){
+        //Pegando as informações do banco de dados
+        if(isset($_GET['id'])){
+            //Esse if é usado caso de passagem de ID
+            $id = $_GET['id'];
+            $sql = $con->query("select * from clientes where id='$id'");
+            $data = $sql->fetch_assoc();
         }else{
-        $result = json_encode(array('success'=>false));
-    
+            //Entra nesse caso não tenha passagem de ID via 'get'
+            $data = array();
+            $sql = $con->query("select * from clientes");
+            while($d = $sql->fetch_assoc()){
+                $data[] = $d;
+            }
         }
-     echo $result;
+        exit(json_encode($data));
+    }
 
-
-
-
-
-    
-}else if($postjson['requisicao'] == 'listar'){
-
-    if($postjson['nome'] == ''){
-        $query = $pdo->query("SELECT * from usuarios order by id desc limit $postjson[start], $postjson[limit]");
-    }else{
-      $busca = $postjson['nome'] . '%';
-      $query = $pdo->query("SELECT * from usuarios where nome LIKE '$busca' or usuario LIKE '$busca' order by id desc limit $postjson[start], $postjson[limit]");
+    if($_SERVER['REQUEST_METHOD'] === 'PUT'){
+        //alterar informações
+        if(isset($_GET['id'])){
+            $id = $_GET['id'];
+            $data = json_decode(file_get_contents("php://input"));
+            $sql = $con->query("update clientes set
+                nome = '".$data->nome."',
+                cidade = '".$data->cidade."',
+                email = '".$data->email."'
+                where id = '$id'");
+            if($sql){
+                exit(json_encode(array('status' => 'Sucesso')));
+            }else{
+                exit(json_encode(array('status' => 'Nao Funcionou')));
+            }
+        }
     }
 
 
-    $res = $query->fetchAll(PDO::FETCH_ASSOC);
-
- 	for ($i=0; $i < count($res); $i++) { 
-      foreach ($res[$i] as $key => $value) {
-      }
- 		$dados[] = array(
- 			'id' => $res[$i]['id'],
- 			'nome' => $res[$i]['nome'],
-			'usuario' => $res[$i]['usuario'],
-            'senha' => $res[$i]['senha'],
-            'senha_original' => $res[$i]['senha_original'],
-            'nivel' => $res[$i]['nivel'],
-            
-        
- 		);
-
- }
-
-        if(count($res) > 0){
-                $result = json_encode(array('success'=>true, 'result'=>$dados));
-
-            }else{
-                $result = json_encode(array('success'=>false, 'result'=>'0'));
-
-            }
-            echo $result;
-
-}
-
-
-
-
-else if($postjson['requisicao'] == 'editar'){
-    
-    $senha_cript = md5($postjson['senha']);
-
-    $query = $pdo->prepare("UPDATE usuarios SET nome = :nome, usuario = :usuario, senha = :senha, senha_original = :senha_original, nivel = :nivel where id = :id");
-  
-       $query->bindValue(":nome", $postjson['nome']);
-       $query->bindValue(":usuario", $postjson['usuario']);
-       $query->bindValue(":senha", $senha_cript);
-       $query->bindValue(":senha_original", $postjson['senha']);
-       $query->bindValue(":nivel", $postjson['nivel']);
-       $query->bindValue(":id", $postjson['id']);
-       $query->execute();
-  
-       $id = $pdo->lastInsertId();
-       
-  
-      if($query){
-        $result = json_encode(array('success'=>true, 'id'=>$id));
-  
+    if($_SERVER['REQUEST_METHOD'] === 'POST'){
+        //gravar informações
+        $data = json_decode(file_get_contents("php://input"));
+        $sql = $con->query("insert into clientes(nome, cidade, email) values
+        ('".$data->nome."',
+        '".$data->cidade."',
+        '".$data->email."')");
+        if($sql){
+            $data->id = $con->insert_id;
+            exit(json_encode($data));
         }else{
-        $result = json_encode(array('success'=>false));
-    
+            exit(json_encode(array('status' => 'Nao Funcionoy')));
         }
-     echo $result;
-
     }
 
 
-
-
-    else if($postjson['requisicao'] == 'excluir'){
-    
-            
-        $query = $pdo->query("DELETE FROM usuarios where id = '$postjson[id]'");
-      
-                 
-      
-          if($query){
-            $result = json_encode(array('success'=>true));
-      
+    if($_SERVER['REQUEST_METHOD'] === 'DELETE'){
+        //apagar informações do banco
+        if(isset($_GET['id'])){
+            $id = $_GET['id'];
+            $sql = $con->query("delete from clientes
+                where id='$id'");
+            if($sql){
+                exit(json_encode(array('status' => 'Sucesso em deletar')));
             }else{
-            $result = json_encode(array('success'=>false));
-        
+                exit(json_encode(array('status' => 'Falha em deletar')));
             }
-         echo $result;
-    
         }
+    }
 
-
-
-
-
-        else if($postjson['requisicao'] == 'login'){
-
-         
-          $query = $pdo->query("SELECT * from usuarios where usuario = '$postjson[usuario]' and senha_original = '$postjson[senha]'");
-          
-          $res = $query->fetchAll(PDO::FETCH_ASSOC);
-      
-         for ($i=0; $i < count($res); $i++) { 
-            foreach ($res[$i] as $key => $value) {
-            }
-           $dados = array(
-             'id' => $res[$i]['id'],
-             'nome' => $res[$i]['nome'],
-            'usuario' => $res[$i]['usuario'],
-                  'senha' => $res[$i]['senha'],
-                  'senha_original' => $res[$i]['senha_original'],
-                  'nivel' => $res[$i]['nivel'],
-                  
-              
-           );
-      
-       }
-      
-              if(count($res) > 0){
-                      $result = json_encode(array('success'=>true, 'result'=>$dados));
-      
-                  }else{
-                      $result = json_encode(array('success'=>false, 'msg'=>'Dados Incorretos!'));
-      
-                  }
-                  echo $result;
-      
-      }
-      
 
 ?>
