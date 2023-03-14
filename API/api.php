@@ -34,7 +34,7 @@
                 nome = '".$data->nome."',
                 cidade = '".$data->cidade."',
                 email = '".$data->email."',
-                senha_original = '".$data->senha_original."',
+                senha_original = '".$data->senha_original."'
 
                 where id = '$id'");
             if($sql){
