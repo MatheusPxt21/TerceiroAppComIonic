@@ -76,7 +76,7 @@ async presentDELETEToast(name: any) {
 
 
   editar(c: Cliente){
-    //console.log(c);
+    console.log(c);
     this.modalCtrl.create({
       component: AdicionarUsuarioPage,
       componentProps: {c}

@@ -1,7 +1,7 @@
 <?php
     header('Access-Control-Allow-Origin: *');
     header('Content-Type: application/json');
-    header('Access-Control-Allow-Methods: POST, GET, PUT, DELETE');
+    header('Access-Control-Allow-Methods: POST, GET, PUT, DELETE, LOGIN');
     header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
 
@@ -33,7 +33,9 @@
             $sql = $con->query("update clientes set
                 nome = '".$data->nome."',
                 cidade = '".$data->cidade."',
-                email = '".$data->email."'
+                email = '".$data->email."',
+                senha_original = '".$data->senha_original."',
+
                 where id = '$id'");
             if($sql){
                 exit(json_encode(array('status' => 'Sucesso')));
@@ -47,15 +49,16 @@
     if($_SERVER['REQUEST_METHOD'] === 'POST'){
         //gravar informações
         $data = json_decode(file_get_contents("php://input"));
-        $sql = $con->query("insert into clientes(nome, cidade, email) values
+        $sql = $con->query("insert into clientes(nome, cidade, email, senha_original) values
         ('".$data->nome."',
         '".$data->cidade."',
-        '".$data->email."')");
+        '".$data->email."',
+        '".$data->senha_original."')");
         if($sql){
             $data->id = $con->insert_id;
             exit(json_encode($data));
         }else{
-            exit(json_encode(array('status' => 'Nao Funcionoy')));
+            exit(json_encode(array('status' => 'Nao Funcionou')));
         }
     }
 
@@ -72,6 +75,17 @@
                 exit(json_encode(array('status' => 'Falha em deletar')));
             }
         }
+    }
+
+
+    if($_SERVER['REQUEST_METHOD'] === 'LOGIN'){
+      $nome = $_GET['nome'];
+      $senha_original = $_GET['senha_original'];
+
+      $sql = $con->query("select * from clientes where
+      nome='$nome' and senha_original='$senha_original'");
+
+
     }
 
 

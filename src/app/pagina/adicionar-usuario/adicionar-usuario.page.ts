@@ -16,6 +16,7 @@ export class AdicionarUsuarioPage implements OnInit {
     nome: '',
     cidade: '',
     email: '',
+    senha_original: '',
   }
 
   constructor(private modalCtrl: ModalController,

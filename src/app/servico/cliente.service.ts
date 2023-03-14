@@ -7,6 +7,7 @@ export interface Cliente{
   nome: string;
   cidade: string;
   email: string;
+  senha_original: string;
 }
 
 @Injectable({
@@ -31,6 +32,14 @@ export class ClienteService {
 
   update(cliente: Cliente, id: any){
     return this.http.put(this.url +'/' + id, cliente);
+  }
+
+  /*login(cliente: Cliente, id: any){
+    return this.http.put(this.url +'/' + id, cliente);
+  }
+  */
+  login(){
+    return this.http.get<[Cliente]>(this.url);
   }
 
 }

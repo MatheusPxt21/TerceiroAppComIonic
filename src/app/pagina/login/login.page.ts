@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormGroup, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ModalController, ToastController } from '@ionic/angular';
 import { Cliente, ClienteService } from 'src/app/servico/cliente.service';
@@ -11,13 +12,14 @@ import { AdicionarUsuarioPage } from '../adicionar-usuario/adicionar-usuario.pag
 })
 export class LoginPage implements OnInit {
 
+  @Input() c!: Cliente;
   clientes!: Cliente[];
 
   usuario : string = "";
   senha : string = "";
 
 
-  constructor(private router:Router,
+  constructor(private router: Router,
               private service: ClienteService,
               public toast: ToastController,
               private modalCtrl: ModalController) { }
@@ -40,6 +42,9 @@ export class LoginPage implements OnInit {
 
 
   async login(){
+
+    console.log('usuario:', this.usuario, 'senha:', this.senha)
+
     if(this.usuario == ""){
       const toast = await this.toast.create({
         message: 'Preencha o Usuário',
@@ -60,8 +65,38 @@ export class LoginPage implements OnInit {
       return;
     }
 
+    if(this.usuario === 'teste' && this.senha === '123' ){
+      this.router.navigateByUrl('/folder/home');
+    }else{
+      const toast = await this.toast.create({
+        message: 'Usuário/Senha incompatíveis ou ainda nao cadastrados',
+        duration: 3000,
+        color: 'danger'
+      });
+      toast.present();
+      return;
+    }
+
+    //this.service.login().subscribe(response =>{
+      //this.c = response;
+      //console.log(this.c, this.senha);
+      //console.log(response);
+      //if(this.usuario === this. && this.senha === ){
+
+      //}
+
+    //});
+
+
+    //this.router.navigateByUrl('/folder/home');
+
+
 
 
 
   }
+
 }
+
+
+
